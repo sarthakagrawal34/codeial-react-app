@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getPosts } from '../api';
-import { Home } from '../pages';
-import { Loader, NavBar} from './';
+import { Home, Login } from '../pages';
+import { Loader, NavBar } from './';
+import { Routes, Route } from 'react-router-dom';
+
+const Page404 = () => {
+  return <h1>404</h1>;
+};
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -29,7 +34,13 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      <Home posts={posts} />
+      <Routes>
+        <Route path="/" element={<Home posts={posts} />}></Route>
+        <Route path="/login" element={<Login/>}></Route>
+
+        {/* When no route matches we use path="*" which means that this will be rendered */}
+        <Route path="*" element={<Page404 />}></Route>
+      </Routes>
     </div>
   );
 }
