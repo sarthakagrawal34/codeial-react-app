@@ -1,21 +1,25 @@
 import { Link } from 'react-router-dom';
 import styles from '../styles/navbar.module.css';
+import {useAuth} from '../hooks'
 
 const NavBar = () => {
-    return (
-      <div className={styles.nav}>
-        {/* Left side of Navbar */}
-        <div className={styles.leftDiv}>
-          <Link to="/">
-            <img
-              alt=""
-              src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
-            />
-          </Link>
-        </div>
+  const auth = useAuth();
 
-        {/* Right side Navbar */}
-        <div className={styles.rightNav}>
+  return (
+    <div className={styles.nav}>
+      {/* Left side of Navbar */}
+      <div className={styles.leftDiv}>
+        <Link to="/">
+          <img
+            alt=""
+            src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
+          />
+        </Link>
+      </div>
+
+      {/* Right side Navbar */}
+      <div className={styles.rightNav}>
+        {auth.user && (
           <div className={styles.user}>
             <Link to="/">
               <img
@@ -24,27 +28,35 @@ const NavBar = () => {
                 className={styles.userDp}
               />
             </Link>
-            <span>Sarthak</span>
+            <span>{auth.user.name}</span>
           </div>
-        </div>
-
-        {/* Buttons for log-in , log-out, and register */}
-        <div className={styles.navLinks}>
-          <ul>
-            <li>
-              {/* We use Link tag instead of anchor tag as anchor tag will refresh whole page after clicking it but Link tag will not refresh the page */}
-              <Link to="/login">Log In</Link>
-            </li>
-            <li>
-              <Link to="/">Log Out</Link>
-            </li>
-            <li>
-              <Link to="/=">Register</Link>
-            </li>
-          </ul>
-        </div>
+        )}
       </div>
-    );
+
+      {/* Buttons for log-in , log-out, and register */}
+      <div className={styles.navLinks}>
+        <ul>
+          {auth.user ? (
+            <>
+              <li onClick={auth.logout}>
+                <Link to= "/">Log Out</Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                {/* We use Link tag instead of anchor tag as anchor tag will refresh whole page after clicking it but Link tag will not refresh the page */}
+                <Link to="/login">Log In</Link>
+              </li>
+              <li>
+                <Link to="/=">Register</Link>
+              </li>
+            </>
+          )}
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default NavBar;
