@@ -3,6 +3,7 @@ import { getPosts } from '../api';
 import { Home, Login } from '../pages';
 import { Loader, NavBar } from './';
 import { Routes, Route } from 'react-router-dom';
+import { useAuth } from '../hooks';
 
 const Page404 = () => {
   return <h1>404</h1>;
@@ -11,6 +12,7 @@ const Page404 = () => {
 function App() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const auth = useAuth();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -27,7 +29,7 @@ function App() {
   }, []);
 
 
-  if (loading) {
+  if (auth.loading) {
     return <Loader />;
   }
 

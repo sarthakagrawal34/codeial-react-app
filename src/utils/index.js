@@ -1,6 +1,33 @@
 // We can export named constants using * operator but this can't be used for default exports
 export * from './constants';
 
+export const setItemInLocalStorage = (key, value) => {
+    if (!key || !value) {
+        return console.error('Can not store in LS');
+    }
+
+    const valueToStore =
+        typeof value !== 'string' ? JSON.stringify(value) : value;
+
+    localStorage.setItem(key, value);
+};
+
+export const getItemFromLocalStorage = (key) => {
+  if (!key) {
+    return console.error('Can not get value from LS');
+  }
+  
+  return localStorage.getItem(key);
+};
+
+export const removeItemFromLocalStorage = (key) => {
+  if (!key) {
+    return console.error('Can not remove value from LS');
+  }
+
+  localStorage.removeItem(key);
+};
+
 export const getFormBody = (params) => {
     let formBody = [];
 
