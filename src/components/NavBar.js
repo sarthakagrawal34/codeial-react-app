@@ -49,7 +49,7 @@ const NavBar = () => {
                 <Link to="/login">Log In</Link>
               </li>
               <li>
-                <Link to="/=">Register</Link>
+                <Link to="/sign-up">Sign Up</Link>
               </li>
             </>
           )}

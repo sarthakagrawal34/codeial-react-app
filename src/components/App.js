@@ -1,4 +1,4 @@
-import { Home, Login } from '../pages';
+import { Home, Login, SignUp } from '../pages';
 import { Loader, NavBar } from './';
 import { Routes, Route } from 'react-router-dom';
 import { useAuth } from '../hooks';
@@ -19,7 +19,8 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/login" element={<Login/>}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/sign-up" element={<SignUp />}></Route>
 
         {/* When no route matches we use path="*" which means that this will be rendered */}
         <Route path="*" element={<Page404 />}></Route>
