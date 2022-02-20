@@ -21,7 +21,7 @@ const NavBar = () => {
       <div className={styles.rightNav}>
         {auth.user && (
           <div className={styles.user}>
-            <Link to="/">
+            <Link to="/settings">
               <img
                 alt=""
                 src="https://cdn-icons.flaticon.com/png/128/2202/premium/2202112.png?token=exp=1644591071~hmac=53c882810ea6b302934838d8fb7af074"
