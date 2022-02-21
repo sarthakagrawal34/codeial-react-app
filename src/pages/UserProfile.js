@@ -1,11 +1,46 @@
 import styles from '../styles/settings.module.css';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { fetchUserProfile } from '../api';
+import { useToasts } from 'react-toast-notifications';
+import { Loader } from '../components';
 
 const UserProfile = () => {
-    const location = useLocation();
-    console.log('location', location);
-    // const { user ={ } } = location.state;
+    // const location = useLocation();
+    // console.log('location', location);
+    // const { name,email } = location.state;
+
+    const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(true);
+    const { userId } = useParams();
+    const { addToast } = useToasts();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const getUser = async () => {
+            const response = await fetchUserProfile(userId);
+
+            if (response.success) {
+                setUser(response.data.user);
+            } else {
+                addToast(response.message, {
+                    appearance: 'error',
+                });
+
+                return navigate('/');
+            }
+
+            setLoading(false);
+        }
+
+        getUser();
+    }, [userId, navigate, addToast]);
     
+    if (loading) {
+      return <Loader />;
+    }
+
     return (
       <div className={styles.settings}>
         <div className={styles.imgContainer}>
@@ -17,12 +52,12 @@ const UserProfile = () => {
 
         <div className={styles.field}>
           <div className={styles.fieldLabel}> Email</div>
-          <div className={styles.fieldValue}> {location.state.email}</div>
+          <div className={styles.fieldValue}> {user.email}</div>
         </div>
 
         <div className={styles.field}>
           <div className={styles.fieldLabel}> Name</div>
-          <div className={styles.fieldValue}> {location.state.name}</div>
+          <div className={styles.fieldValue}> {user.name}</div>
         </div>
 
         <div className={styles.btnGrp}>
