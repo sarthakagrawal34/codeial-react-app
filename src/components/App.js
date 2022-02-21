@@ -1,4 +1,4 @@
-import { Home, Login, SignUp, Settings } from '../pages';
+import { Home, Login, SignUp, Settings, UserProfile } from '../pages';
 import { Loader, NavBar } from './';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks';
@@ -32,6 +32,14 @@ function App() {
           element={
             <PrivateRoute>
               <Settings />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          path="/user/:userId"
+          element={
+            <PrivateRoute>
+              <UserProfile />
             </PrivateRoute>
           }
         ></Route>
