@@ -58,7 +58,7 @@ const Home = () => {
                     src="https://cdn-icons-png.flaticon.com/128/889/889140.png"
                     alt="likes-icon"
                   />
-                  <span>5</span>
+                  <span>{post.likes.length}</span>
                 </div>
 
                 <div className={styles.postCommentsIcon}>
