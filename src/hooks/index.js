@@ -6,7 +6,7 @@ import jwt from 'jwt-decode';
 
 export const useAuth = () => {
     return useContext(AuthContext);
-}
+};
 
 export const useProvideAuth = () => {
     const [user, setUser] = useState(null);
@@ -57,7 +57,7 @@ export const useProvideAuth = () => {
         }
     };
 
-    const login = async (email, password) => { 
+    const login = async (email, password) => {
         const response = await userLogin(email, password);
 
         if (response.success) {
@@ -78,23 +78,42 @@ export const useProvideAuth = () => {
     };
 
     const signup = async (name, email, password, confirmPassword) => {
-      const response = await register(name, email, password, confirmPassword);
+        const response = await register(name, email, password, confirmPassword);
 
-      if (response.success) {
-        return {
-          success: true,
-        };
-      } else {
-        return {
-          success: false,
-          message: response.message,
-        };
-      }
+        if (response.success) {
+            return {
+                success: true,
+            };
+        } else {
+            return {
+                success: false,
+                message: response.message,
+            };
+        }
     };
 
-    const logout = () => { 
+    const logout = () => {
         setUser(null);
         removeItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+    };
+
+    const updateUserFriends = (addFriend, friend) => {
+        if (addFriend) {
+            setUser({
+                ...user,
+                friends: [...user.friends, friend],
+            });
+            return;
+        }
+        
+        const newFriends = user.friends.filter(
+          (f) => f.to_user._id !== friend.to_user._id
+        );
+
+        setUser({
+          ...user,
+          friends: newFriends,
+        });
     };
 
     return {
@@ -104,5 +123,6 @@ export const useProvideAuth = () => {
         loading,
         signup,
         updateUser,
-    }
-}
+        updateUserFriends,
+    };
+};
