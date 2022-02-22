@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { fetchUserProfile } from '../api';
 import { useToasts } from 'react-toast-notifications';
 import { Loader } from '../components';
+import { useAuth } from '../hooks';
 
 const UserProfile = () => {
     // const location = useLocation();
@@ -16,6 +17,7 @@ const UserProfile = () => {
     const { userId } = useParams();
     const { addToast } = useToasts();
     const navigate = useNavigate();
+    const auth = useAuth();
 
     useEffect(() => {
         const getUser = async () => {
@@ -41,6 +43,18 @@ const UserProfile = () => {
       return <Loader />;
     }
 
+    const checkIfUserIsAFriend = () => {
+        const friends = auth.user.friends;
+
+        const friendsIds = friends.map(friend => friend.to_user._id);
+        const index = friendsIds.indexOf(userId);
+
+        if (index !== -1) {
+            return true;
+        }
+        return false;
+    };
+
     return (
       <div className={styles.settings}>
         <div className={styles.imgContainer}>
@@ -61,11 +75,11 @@ const UserProfile = () => {
         </div>
 
         <div className={styles.btnGrp}>
-          <button className={`button ${styles.saveBtn}`}> Add Friend </button>
-          <button className={`button ${styles.saveBtn}`}>
-            {' '}
-            Remove Friend{' '}
-          </button>
+          {checkIfUserIsAFriend() ? (
+            <button className={`button ${styles.saveBtn}`}>Remove Friend</button>
+          ) : (
+            <button className={`button ${styles.saveBtn}`}> Add Friend </button>
+          )}
         </div>
       </div>
     );
