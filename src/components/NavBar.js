@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import styles from '../styles/navbar.module.css';
-import {useAuth} from '../hooks'
+import { useAuth } from '../hooks';
+import { useState } from 'react/cjs/react.development';
 
 const NavBar = () => {
+  const [results, setResults] = useState([]);
+  const [searchText, setSearchText] = useState('');
   const auth = useAuth();
 
   return (
@@ -15,6 +18,41 @@ const NavBar = () => {
             src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
           />
         </Link>
+      </div>
+
+      <div className={styles.searchContainer}>
+        <img
+          className={styles.searchIcon}
+          src="https://cdn-icons.flaticon.com/png/128/3031/premium/3031293.png?token=exp=1645633990~hmac=94785a49e3044029c592e750ddeae5b1"
+          alt=" "
+        />
+
+        <input
+          placeholder="Search Users"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+
+        {results.length > 0 && (
+          <div className={styles.searchResults}>
+            <ul>
+              {results.map((user) => (
+                <li
+                  className={styles.searchResultsRow}
+                  key={`user-${user._id}`}
+                >
+                  <Link to={`/users/${user._id}`}>
+                    <img
+                      src="https://cdn-icons.flaticon.com/png/128/2202/premium/2202112.png?token=exp=1644591071~hmac=53c882810ea6b302934838d8fb7af074"
+                      alt=""
+                    />
+                  </Link>
+                  <span>{user.name}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {/* Right side Navbar */}
@@ -39,7 +77,7 @@ const NavBar = () => {
           {auth.user ? (
             <>
               <li onClick={auth.logout}>
-                <Link to= "/">Log Out</Link>
+                <Link to="/">Log Out</Link>
               </li>
             </>
           ) : (
