@@ -2,9 +2,11 @@ import { createContext } from 'react';
 import { useProvidePosts } from '../hooks';
 
 const initialState = {
-    posts: [],
-    loading: true,
-    addPostToState: () => { },
+  posts: [],
+  loading: true,
+  addPostToState: () => {},
+  addComment: () => { },
+  
 };
 
 export const PostsContext = createContext(initialState);
